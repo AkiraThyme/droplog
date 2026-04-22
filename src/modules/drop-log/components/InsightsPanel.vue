@@ -1,12 +1,12 @@
 <template>
   <section class="grid grid-cols-2 gap-2">
-    <article class="rounded-xl border border-slate-800 bg-slate-900 p-3">
-      <h3 class="text-xs text-slate-400">Top mood</h3>
-      <p class="text-lg font-semibold">{{ topMood }}</p>
+    <article class="glass-panel rounded-2xl p-3">
+      <h3 class="text-xs text-slate-500">Top mood</h3>
+      <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">{{ topMood }}</p>
     </article>
-    <article class="rounded-xl border border-slate-800 bg-slate-900 p-3">
-      <h3 class="text-xs text-slate-400">Total days active</h3>
-      <p class="text-lg font-semibold">{{ Object.keys(entriesPerDay).length }}</p>
+    <article class="glass-panel rounded-2xl p-3">
+      <h3 class="text-xs text-slate-500">Total days active</h3>
+      <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">{{ Object.keys(entriesPerDay).length }}</p>
     </article>
   </section>
 </template>
