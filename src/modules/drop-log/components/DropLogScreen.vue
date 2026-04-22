@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
-import { Keyboard } from '@capacitor/keyboard';
+import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 import { useDropEntries } from '../composables/useDropEntries';
 import { useInsights } from '../composables/useInsights';
 import DropFab from './DropFab.vue';
@@ -53,7 +53,7 @@ const ui = useUIStore();
 const { entries, error, selectedMood, selectedTag, search, addEntry, removeEntry } = useDropEntries();
 const { topMood, entriesPerDay } = useInsights();
 
-Keyboard.setResizeMode({ mode: 'native' }).catch(() => undefined);
+Keyboard.setResizeMode({ mode: KeyboardResize.Native }).catch(() => undefined);
 
 const handleSave = async (payload: { text: string; mood: string; tags: string[] }) => {
   const saved = await addEntry(payload);
