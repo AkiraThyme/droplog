@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply min-h-screen bg-slate-950 text-slate-100 antialiased;
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-2xl border border-slate-800 bg-slate-900/90 shadow-sm backdrop-blur;
+  }
+
+  .input-control {
+    @apply w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25;
+  }
+
+  .chip-button {
+    @apply rounded-full border border-slate-700 px-3 py-1 text-sm transition active:scale-95;
+  }
+
+  .primary-button {
+    @apply w-full rounded-xl bg-brand-500 py-3 font-semibold text-white transition hover:bg-violet-500 active:scale-[0.99];
+  }
+}
