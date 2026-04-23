@@ -22,9 +22,6 @@
     </nav>
 
     <div class="mt-auto space-y-3">
-      <button class="touch-target w-full rounded-xl bg-violet-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-violet-500/30" @click="$emit('add')">
-        + Drop
-      </button>
       <button class="touch-target w-full rounded-xl border border-slate-300/80 px-4 py-2 text-xs font-semibold text-app-secondary dark:border-slate-700" @click="$emit('toggle-theme')">
         {{ themeLabel }}
       </button>
@@ -41,5 +38,5 @@ const navItems = [
 ] as const;
 
 defineProps<{ activeTab: 'home' | 'timeline' | 'insights' | 'more'; themeLabel: string }>();
-defineEmits<{ change: [tab: 'home' | 'timeline' | 'insights' | 'more']; add: []; 'toggle-theme': [] }>();
+defineEmits<{ change: [tab: 'home' | 'timeline' | 'insights' | 'more']; 'toggle-theme': [] }>();
 </script>

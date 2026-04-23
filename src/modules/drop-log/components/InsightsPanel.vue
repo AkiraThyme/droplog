@@ -1,6 +1,6 @@
 <template>
   <section class="space-y-4">
-    <div class="grid grid-cols-2 gap-3">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       <article
         v-for="card in cards"
         :key="card.id"
