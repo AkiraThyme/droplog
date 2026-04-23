@@ -24,6 +24,18 @@
       class="w-full rounded-xl border border-slate-700 bg-slate-800 p-3"
     />
 
+    <div v-if="suggestedTags.length" class="flex flex-wrap gap-2">
+      <button
+        v-for="tag in suggestedTags"
+        :key="tag"
+        type="button"
+        class="rounded-full border border-violet-400/80 bg-violet-200/20 px-2 py-0.5 text-xs"
+        @click="appendTag(tag)"
+      >
+        + {{ tag }}
+      </button>
+    </div>
+
     <input
       v-model="tagsInput"
       placeholder="tags separated by comma"
@@ -35,7 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref, watch } from 'vue';
+import { computed, nextTick, reactive, ref, watch } from 'vue';
+import { useAutoTags } from '../composables/useAutoTags';
 
 const emit = defineEmits<{
   save: [payload: { text: string; mood: string; tags: string[] }];
@@ -51,6 +64,8 @@ const model = reactive({
   mood: moods[1],
 });
 
+const { suggestedTags } = useAutoTags(computed(() => model.text));
+
 watch(
   () => props.open,
   async (open) => {
@@ -60,6 +75,17 @@ watch(
     }
   },
 );
+
+const appendTag = (tag: string) => {
+  const tags = tagsInput.value
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+  if (!tags.includes(tag)) {
+    tags.push(tag);
+    tagsInput.value = tags.join(', ');
+  }
+};
 
 const onSubmit = () => {
   emit('save', {
