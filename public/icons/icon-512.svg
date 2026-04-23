@@ -1,6 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="120" fill="#020617" />
-  <circle cx="256" cy="256" r="144" fill="#7c3aed" />
-  <path d="M184 261h144v38H184z" fill="#fff" />
-  <path d="M237 171h38v189h-38z" fill="#fff" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DropLog logo">
+  <defs>
+    <linearGradient id="bubble" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="45%" stop-color="#ec4899"/>
+      <stop offset="75%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="dot" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="#0b0d1a"/>
+  <path d="M124 238c0-102 82-184 184-184s184 82 184 184-82 184-184 184c-20 0-39-3-57-9l-82 40c-13 6-27-5-24-19l14-63c-22-32-35-72-35-117z" fill="url(#bubble)"/>
+  <circle cx="392" cy="112" r="24" fill="url(#dot)"/>
+  <rect x="208" y="196" width="132" height="20" rx="10" fill="#f8fafc"/>
+  <rect x="198" y="244" width="144" height="20" rx="10" fill="#f8fafc"/>
+  <rect x="206" y="292" width="92" height="20" rx="10" fill="#f8fafc"/>
 </svg>

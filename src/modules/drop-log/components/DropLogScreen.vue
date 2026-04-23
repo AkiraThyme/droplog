@@ -3,10 +3,13 @@
     <header class="glass-panel flex items-center justify-between rounded-2xl px-4 py-3">
       <div>
         <p class="text-xs uppercase tracking-wider text-slate-500">Welcome back</p>
-        <h1 class="text-2xl font-bold text-slate-900">DropLog</h1>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">DropLog</h1>
       </div>
-      <button class="rounded-xl border border-slate-300/80 bg-white/60 px-3 py-1.5 text-sm text-slate-700" @click="ui.toggleTheme()">
-        Theme
+      <button
+        class="rounded-xl border border-slate-300/80 bg-white/75 px-3 py-1.5 text-sm font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
+        @click="ui.toggleTheme()"
+      >
+        {{ ui.theme === 'black' ? 'Light theme' : 'Black theme' }}
       </button>
     </header>
 
@@ -23,19 +26,19 @@
 
     <LogCalendar :entries="entries" :selected-date="selectedDate" @select-day="selectDay" @clear="clearDayFilter" />
 
-    <section v-if="activeTab === 'insights'" class="glass-panel rounded-3xl p-4 text-slate-700">
-      <h3 class="text-sm font-semibold text-slate-900">Momentum</h3>
+    <section v-if="activeTab === 'insights'" class="glass-panel rounded-3xl p-4 text-slate-700 dark:text-slate-200">
+      <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">Momentum</h3>
       <div class="mt-3 grid grid-cols-2 gap-3 text-sm">
-        <article class="rounded-2xl border border-white/70 bg-white/50 p-3">
-          <p class="text-xs text-slate-500">Current streak</p>
-          <p class="mt-1 text-lg font-semibold text-slate-900">{{ streakDays }} days</p>
+        <article class="rounded-2xl border border-white/70 bg-white/60 p-3 dark:border-slate-700 dark:bg-slate-900/70">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Current streak</p>
+          <p class="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ streakDays }} days</p>
         </article>
-        <article class="rounded-2xl border border-white/70 bg-white/50 p-3">
-          <p class="text-xs text-slate-500">This week</p>
-          <p class="mt-1 text-lg font-semibold text-slate-900">{{ weekCount }} logs</p>
+        <article class="rounded-2xl border border-white/70 bg-white/60 p-3 dark:border-slate-700 dark:bg-slate-900/70">
+          <p class="text-xs text-slate-500 dark:text-slate-400">This week</p>
+          <p class="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">{{ weekCount }} logs</p>
         </article>
       </div>
-      <p class="mt-4 rounded-2xl border border-violet-200 bg-violet-100/70 p-3 text-xs leading-relaxed text-violet-900">
+      <p class="mt-4 rounded-2xl border border-violet-200 bg-violet-100/75 p-3 text-xs leading-relaxed text-violet-900 dark:border-violet-900 dark:bg-violet-950/60 dark:text-violet-100">
         Reflection tip: add one positive tag on every tough day so future-you can spot recovery patterns faster.
       </p>
     </section>

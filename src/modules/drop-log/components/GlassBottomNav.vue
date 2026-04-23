@@ -4,14 +4,14 @@
       v-for="item in items"
       :key="item.key"
       class="rounded-xl px-3 py-2 text-xs font-semibold transition"
-      :class="activeTab === item.key ? 'bg-white/65 text-slate-900' : 'text-slate-600 hover:text-slate-800'"
+      :class="activeTab === item.key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-200 dark:text-slate-950' : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100'"
       @click="$emit('change', item.key)"
     >
       {{ item.label }}
     </button>
 
     <button
-      class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-violet-300/60 transition-transform active:scale-95"
+      class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-violet-300/60 transition-transform active:scale-95 dark:bg-violet-500 dark:shadow-violet-900/50"
       @click="$emit('add')"
     >
       + Drop
