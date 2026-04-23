@@ -11,11 +11,11 @@ html.dark {
 }
 
 body {
-  @apply min-h-screen bg-gradient-to-b from-sky-100 via-indigo-50 to-fuchsia-100 text-slate-900 antialiased transition-colors;
+  @apply min-h-screen bg-gradient-to-b from-slate-100 via-indigo-50 to-fuchsia-100 text-slate-900 antialiased transition-colors;
 }
 
 html.dark body {
-  @apply bg-slate-950 text-slate-100;
+  @apply bg-black text-slate-100;
 }
 
 .safe-bottom {
@@ -23,11 +23,11 @@ html.dark body {
 }
 
 .glass-panel {
-  @apply border border-white/70 bg-white/45 shadow-sm backdrop-blur-md;
+  @apply border border-white/90 bg-white/80 shadow-lg shadow-slate-300/45 backdrop-blur-lg;
 }
 
 .glass-nav {
-  @apply border border-white/60 bg-white/45 shadow-lg shadow-slate-200/50 backdrop-blur-xl;
+  @apply border border-white bg-white/85 shadow-xl shadow-slate-300/60 backdrop-blur-xl;
 }
 
 .calendar-cell {
@@ -36,7 +36,7 @@ html.dark body {
 
 html.dark .glass-panel,
 html.dark .glass-nav {
-  @apply border-slate-700/60 bg-slate-900/55 text-slate-100;
+  @apply border-slate-700/80 bg-slate-900/80 text-slate-100 shadow-black/40;
 }
 
 html.dark .calendar-cell {
