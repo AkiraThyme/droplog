@@ -30,6 +30,18 @@ html.dark body {
   @apply border border-white/95 bg-white/75 shadow-xl shadow-slate-300/55 backdrop-blur-xl;
 }
 
+.text-app-primary {
+  @apply text-slate-900 dark:text-slate-100;
+}
+
+.text-app-secondary {
+  @apply text-slate-700 dark:text-slate-200;
+}
+
+.text-app-muted {
+  @apply text-slate-500 dark:text-slate-400;
+}
+
 .calendar-cell {
   @apply flex h-11 flex-col items-center justify-center rounded-xl border text-xs transition;
 }

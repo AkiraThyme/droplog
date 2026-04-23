@@ -6,7 +6,7 @@
 
     <div class="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col">
       <header class="glass-panel mb-5 flex items-center gap-3 rounded-2xl px-4 py-3">
-        <img src="/icons/icon-512.svg" alt="DropLog logo" class="h-11 w-11 rounded-xl shadow-md" />
+        <img src="/icons/logo.png" alt="DropLog logo" class="h-11 w-11 rounded-xl shadow-md" />
         <div>
           <h1 class="text-2xl font-black tracking-tight">DropLog</h1>
           <p class="text-xs font-medium text-violet-700 dark:text-violet-300">Drop it. Log it. Remember it.</p>

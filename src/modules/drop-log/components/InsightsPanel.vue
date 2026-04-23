@@ -2,19 +2,19 @@
   <section class="space-y-2">
     <div class="grid grid-cols-2 gap-2">
       <article class="glass-panel rounded-2xl p-3">
-        <h3 class="text-xs text-slate-500 dark:text-slate-400">Top mood</h3>
-        <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">{{ topMood }}</p>
+        <h3 class="text-xs text-app-muted">Top mood</h3>
+        <p class="text-lg font-semibold text-app-primary">{{ topMood }}</p>
       </article>
       <article class="glass-panel rounded-2xl p-3">
-        <h3 class="text-xs text-slate-500 dark:text-slate-400">Total days active</h3>
-        <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">{{ activeDays }}</p>
+        <h3 class="text-xs text-app-muted">Total days active</h3>
+        <p class="text-lg font-semibold text-app-primary">{{ activeDays }}</p>
       </article>
     </div>
 
     <article class="glass-panel rounded-2xl p-3">
       <div class="flex items-center justify-between">
         <h3 class="text-xs font-semibold uppercase tracking-wider text-violet-700 dark:text-violet-300">AI mood trend</h3>
-        <span class="text-[11px] text-slate-500 dark:text-slate-400">last 7 entries</span>
+        <span class="text-[11px] text-app-muted">last 7 entries</span>
       </div>
       <div class="mt-2 flex h-16 items-end gap-1.5">
         <div
@@ -24,7 +24,7 @@
           :style="{ height: `${value}%` }"
         />
       </div>
-      <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">{{ aiSummary }}</p>
+      <p class="mt-2 text-xs text-app-secondary">{{ aiSummary }}</p>
     </article>
   </section>
 </template>

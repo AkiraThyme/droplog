@@ -1,20 +1,20 @@
 <template>
   <RecycleScroller
-    class="h-[42vh]"
+    :class="compact ? 'h-60' : 'h-[42vh]'"
     :items="entries"
     :item-size="104"
     key-field="id"
     v-slot="{ item }"
   >
     <article class="glass-panel mx-1 my-2 rounded-2xl p-3">
-      <header class="mb-1 flex items-center justify-between text-xs text-slate-500">
+      <header class="mb-1 flex items-center justify-between text-xs text-app-muted">
         <span>{{ formatDate(item.createdAt) }} · {{ item.context.timeOfDay }}</span>
         <button class="text-rose-500" @click="$emit('delete', item.id)">Delete</button>
       </header>
-      <p class="text-sm text-slate-800 dark:text-slate-100">{{ item.text }}</p>
+      <p class="text-sm text-app-secondary">{{ item.text }}</p>
       <footer class="mt-2 flex items-center gap-2 text-xs">
         <span class="rounded-lg bg-violet-100 px-2 py-1 text-violet-700 dark:bg-violet-900/70 dark:text-violet-200">{{ item.mood }}</span>
-        <span v-for="tag in item.tags" :key="tag" class="text-slate-500">#{{ tag }}</span>
+        <span v-for="tag in item.tags" :key="tag" class="text-app-muted">#{{ tag }}</span>
       </footer>
     </article>
   </RecycleScroller>
@@ -25,7 +25,10 @@ import { RecycleScroller } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import type { DropEntry } from '../types/drop-entry';
 
-defineProps<{ entries: DropEntry[] }>();
+withDefaults(
+  defineProps<{ entries: DropEntry[]; compact?: boolean }>(),
+  { compact: false },
+);
 defineEmits<{ delete: [id: string] }>();
 
 const formatDate = (timestamp: number) =>
