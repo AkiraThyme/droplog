@@ -27,7 +27,7 @@ html.dark body {
 }
 
 .glass-panel {
-  @apply border border-white/85 bg-white/70 shadow-lg shadow-slate-200/45 backdrop-blur-lg;
+  @apply border border-white/85 bg-white/70 shadow-xl shadow-slate-200/40 backdrop-blur-lg;
 }
 
 .glass-nav {
