@@ -1,5 +1,5 @@
 <template>
-  <section class="glass-panel rounded-3xl p-4">
+  <section class="glass-panel rounded-3xl p-4" :class="isDesktop ? 'p-6' : ''">
     <div class="mb-4 flex items-center justify-between">
       <button
         class="touch-target rounded-full border border-slate-300/80 bg-white/70 px-3 text-sm font-semibold text-app-secondary transition active:scale-95 dark:border-slate-700 dark:bg-slate-900/70"
@@ -29,7 +29,7 @@
           v-for="cell in calendarCells"
           :key="cell.key"
           :disabled="!cell.dateKey"
-          class="calendar-day touch-target"
+          class="calendar-day touch-target" :title="cell.dateKey ? `${cell.dateKey} · ${cell.count} entries` : ''"
           :class="[
             !cell.dateKey && 'opacity-0 pointer-events-none',
             cell.dateKey && cell.levelClass,
@@ -95,7 +95,7 @@ const intensityScale = [
 
 const legendLevels = intensityScale;
 
-const props = defineProps<{ entries: DropEntry[]; selectedDate?: string }>();
+const props = defineProps<{ entries: DropEntry[]; selectedDate?: string; isDesktop?: boolean }>();
 defineEmits<{ 'select-day': [dateKey: string]; clear: [] }>();
 
 const now = new Date();
@@ -161,6 +161,8 @@ const monthDates = computed(() => {
     } satisfies CalendarCell;
   });
 });
+
+const isDesktop = computed(() => Boolean(props.isDesktop));
 
 const calendarCells = computed(() => monthDates.value);
 

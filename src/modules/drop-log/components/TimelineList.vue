@@ -1,41 +1,44 @@
 <template>
-  <div :class="compact ? 'max-h-72' : 'max-h-[46vh]'" class="space-y-3 overflow-auto pr-1">
+  <div :class="compact ? 'max-h-72' : 'max-h-[55vh]'" class="space-y-3 overflow-auto pr-1">
     <TransitionGroup name="timeline" tag="div" class="space-y-4">
       <section v-for="group in groupedEntries" :key="group.date" class="space-y-2">
         <p class="sticky top-0 z-10 rounded-lg bg-white/85 px-2 py-1 text-xs font-semibold text-app-muted dark:bg-slate-900/90">
           {{ formatGroupDate(group.date) }}
         </p>
 
-        <article
-          v-for="item in group.items"
-          :key="item.id"
-          class="glass-panel rounded-2xl p-4"
-        >
-          <header class="mb-3 flex items-start justify-between gap-2">
-            <div>
-              <p class="text-xs font-semibold text-app-muted">{{ formatTime(item.createdAt) }} · {{ item.context.timeOfDay }}</p>
-              <span class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold" :class="moodBadgeClass(item.mood)">
-                {{ item.mood }} Mood
+        <div :class="isDesktop ? 'grid grid-cols-2 gap-3 xl:grid-cols-3' : 'space-y-2'">
+          <article
+            v-for="item in group.items"
+            :key="item.id"
+            class="glass-panel cursor-pointer rounded-2xl p-4"
+            @click="$emit('select', item)"
+          >
+            <header class="mb-3 flex items-start justify-between gap-2">
+              <div>
+                <p class="text-xs font-semibold text-app-muted">{{ formatTime(item.createdAt) }} · {{ item.context.timeOfDay }}</p>
+                <span class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold" :class="moodBadgeClass(item.mood)">
+                  {{ item.mood }} Mood
+                </span>
+              </div>
+              <button class="touch-target rounded-lg px-2 text-xs font-semibold text-rose-500 transition active:scale-95" @click.stop="$emit('delete', item.id)">Delete</button>
+            </header>
+
+            <p class="line-clamp-4 text-sm leading-relaxed text-app-secondary">{{ item.text }}</p>
+
+            <footer class="mt-3 flex flex-wrap gap-2">
+              <span
+                v-for="tag in item.tags"
+                :key="tag"
+                class="rounded-full border border-slate-300/75 bg-white/70 px-2 py-1 text-[11px] font-medium text-app-muted dark:border-slate-700 dark:bg-slate-900/70"
+              >
+                #{{ tag }}
               </span>
-            </div>
-            <button class="touch-target rounded-lg px-2 text-xs font-semibold text-rose-500 transition active:scale-95" @click="$emit('delete', item.id)">Delete</button>
-          </header>
-
-          <p class="text-sm leading-relaxed text-app-secondary">{{ item.text }}</p>
-
-          <footer class="mt-3 flex flex-wrap gap-2">
-            <span
-              v-for="tag in item.tags"
-              :key="tag"
-              class="rounded-full border border-slate-300/75 bg-white/70 px-2 py-1 text-[11px] font-medium text-app-muted dark:border-slate-700 dark:bg-slate-900/70"
-            >
-              #{{ tag }}
-            </span>
-            <button class="rounded-full border border-violet-400/55 px-2 py-1 text-[11px] font-semibold text-violet-600 transition active:scale-95 dark:text-violet-300" @click="$emit('edit', item)">
-              Edit
-            </button>
-          </footer>
-        </article>
+              <button class="rounded-full border border-violet-400/55 px-2 py-1 text-[11px] font-semibold text-violet-600 transition active:scale-95 dark:text-violet-300" @click.stop="$emit('edit', item)">
+                Edit
+              </button>
+            </footer>
+          </article>
+        </div>
       </section>
     </TransitionGroup>
   </div>
@@ -46,8 +49,8 @@ import { computed } from 'vue';
 import type { DropEntry } from '../types/drop-entry';
 import { groupEntriesByDate } from '../utils/date';
 
-const props = withDefaults(defineProps<{ entries: DropEntry[]; compact?: boolean }>(), { compact: false });
-defineEmits<{ delete: [id: string]; edit: [entry: DropEntry] }>();
+const props = withDefaults(defineProps<{ entries: DropEntry[]; compact?: boolean; isDesktop?: boolean }>(), { compact: false, isDesktop: false });
+defineEmits<{ delete: [id: string]; edit: [entry: DropEntry]; select: [entry: DropEntry] }>();
 
 const moodBadgePalette: Record<string, string> = {
   '😄': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200',
