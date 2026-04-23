@@ -11,23 +11,27 @@ html.dark {
 }
 
 body {
-  @apply min-h-screen bg-gradient-to-b from-sky-100 via-indigo-50 to-fuchsia-100 text-slate-900 antialiased transition-colors;
+  @apply min-h-screen bg-gradient-to-b from-slate-100 via-indigo-50 to-violet-100 text-slate-900 antialiased transition-colors duration-300;
 }
 
 html.dark body {
-  @apply bg-black text-slate-100;
+  @apply bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100;
 }
 
 .safe-bottom {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
+.touch-target {
+  @apply min-h-11 min-w-11;
+}
+
 .glass-panel {
-  @apply border border-white/85 bg-white/65 shadow-lg shadow-slate-200/50 backdrop-blur-lg;
+  @apply border border-white/85 bg-white/70 shadow-lg shadow-slate-200/45 backdrop-blur-lg;
 }
 
 .glass-nav {
-  @apply border border-white/95 bg-white/75 shadow-xl shadow-slate-300/55 backdrop-blur-xl;
+  @apply border border-white/95 bg-white/80 shadow-xl shadow-slate-300/45 backdrop-blur-xl;
 }
 
 .text-app-primary {
@@ -42,17 +46,25 @@ html.dark body {
   @apply text-slate-500 dark:text-slate-400;
 }
 
-.calendar-cell {
-  @apply flex h-11 flex-col items-center justify-center rounded-xl border text-xs transition;
+.chip-button {
+  @apply touch-target whitespace-nowrap rounded-full border px-3 text-sm font-medium transition duration-200 active:scale-95;
+}
+
+.chip-active {
+  @apply border-violet-500 bg-violet-500 text-white shadow-sm shadow-violet-400/35;
+}
+
+.chip-inactive {
+  @apply border-slate-300/80 bg-white/60 text-app-secondary dark:border-slate-700 dark:bg-slate-900/65;
+}
+
+.calendar-day {
+  @apply flex h-14 flex-col items-center justify-center rounded-xl border border-transparent text-xs text-app-secondary transition duration-200 active:scale-95;
 }
 
 html.dark .glass-panel,
 html.dark .glass-nav {
   @apply border-slate-700/70 bg-slate-900/70 text-slate-100 shadow-black/35;
-}
-
-html.dark .calendar-cell {
-  @apply border-slate-700/70 text-slate-200;
 }
 
 .timeline-enter-active,
@@ -64,4 +76,15 @@ html.dark .calendar-cell {
 .timeline-leave-to {
   opacity: 0;
   transform: translateY(6px);
+}
+
+.calendar-slide-enter-active,
+.calendar-slide-leave-active {
+  transition: all 0.22s ease;
+}
+
+.calendar-slide-enter-from,
+.calendar-slide-leave-to {
+  opacity: 0;
+  transform: translateX(6px);
 }
