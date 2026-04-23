@@ -1,17 +1,16 @@
 <template>
-  <main class="mx-auto min-h-screen w-full max-w-7xl px-4 pb-32 pt-4 lg:pb-6">
-    <div class="grid gap-4 lg:grid-cols-[250px_1fr_300px]">
+  <main class="mx-auto min-h-screen w-full max-w-7xl px-6 pb-32 pt-4 lg:pb-8">
+    <div class="grid gap-6 lg:grid-cols-[240px_1fr_320px]">
       <DesktopSidebar
         v-if="isDesktop"
         :active-tab="activeTab"
         :theme-label="ui.theme === 'black' ? 'Switch to Light' : 'Switch to Dark'"
         @change="activeTab = $event"
-        @add="ui.openDropModal"
         @toggle-theme="ui.toggleTheme()"
       />
 
-      <section class="space-y-4">
-        <header v-if="!isDesktop" class="glass-panel rounded-3xl px-4 py-4">
+      <section class="space-y-4 lg:space-y-5">
+        <header v-if="isMobile || isTablet" class="glass-panel rounded-3xl px-4 py-4">
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
               <img src="/icons/logo.png" alt="DropLog logo" class="h-11 w-11 rounded-2xl object-cover shadow-md" />
@@ -43,11 +42,11 @@
           />
         </header>
 
-        <section v-if="isDesktop && activeTab === 'home'" class="space-y-4">
+        <section v-if="isDesktop && activeTab === 'home'" class="space-y-5">
           <DashboardPanel :cards="dashboardCards" :weekly-series="weeklySeries" :trend-series="moodTrendSeries" :recent-entries="entries.slice(0, 5)" />
         </section>
 
-        <section v-if="activeTab === 'home' && !isDesktop" class="space-y-5">
+        <section v-if="activeTab === 'home' && (isMobile || isTablet)" class="space-y-5">
           <InsightsPanel :cards="insightCards" :weekly-series="weeklySeries" :trend-series="moodTrendSeries" />
           <article class="glass-panel rounded-2xl p-4">
             <div class="mb-3 flex items-center justify-between">
@@ -60,7 +59,7 @@
 
         <section v-if="activeTab === 'timeline'" class="space-y-4">
           <FilterBar
-            v-if="!isDesktop"
+            v-if="isMobile || isTablet"
             :search="search"
             :mood="selectedMood"
             :tag="selectedTag"
@@ -76,7 +75,7 @@
 
           <LogCalendar :entries="entries" :selected-date="selectedDate" :is-desktop="isDesktop" @select-day="selectDay" @clear="clearDayFilter" />
 
-          <article class="glass-panel rounded-2xl p-4">
+          <article class="glass-panel rounded-2xl p-5">
             <div class="mb-3 flex items-center justify-between">
               <h2 class="text-base font-semibold text-app-primary">Timeline</h2>
               <span class="text-xs text-app-muted">{{ entries.length }} entries</span>
@@ -98,26 +97,56 @@
         <p v-if="error" class="rounded-xl bg-rose-100 px-3 py-2 text-sm text-rose-700">{{ error }}</p>
       </section>
 
-      <section v-if="isDesktop" class="space-y-4">
-        <AdvancedFilterPanel
-          v-if="filtersVisible"
-          :search="search"
-          :mood="selectedMood"
-          :tag="selectedTag"
-          :mood-options="moodOptions"
-          :tag-options="tagOptions"
-          :quick-range="quickRange"
-          @update:search="search = $event"
-          @update:mood="selectedMood = $event"
-          @update:tag="selectedTag = $event"
-          @update:quick-range="applyQuickRange"
-          @clear="clearAllFilters"
-        />
-        <EntryDetailPanel :entry="selectedEntry" @close="selectedEntry = undefined" @edit="handleEdit" @delete="handleDelete" />
+      <section v-if="isDesktop" class="sticky top-4 h-[calc(100vh-2rem)] overflow-y-auto pr-1">
+        <div class="space-y-4">
+          <article class="glass-panel rounded-2xl p-4">
+            <div class="mb-3 flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-app-primary">Quick stats</h3>
+              <span class="text-xs text-app-muted">Live</span>
+            </div>
+            <ul class="space-y-2 text-sm text-app-secondary">
+              <li class="flex items-center justify-between rounded-xl border border-slate-300/70 px-3 py-2 dark:border-slate-700">
+                <span>Total drops</span>
+                <strong class="text-app-primary">{{ entries.length }}</strong>
+              </li>
+              <li class="flex items-center justify-between rounded-xl border border-slate-300/70 px-3 py-2 dark:border-slate-700">
+                <span>Active filters</span>
+                <strong class="text-app-primary">{{ activeFilterCount }}</strong>
+              </li>
+              <li class="flex items-center justify-between rounded-xl border border-slate-300/70 px-3 py-2 dark:border-slate-700">
+                <span>Streak</span>
+                <strong class="text-app-primary">{{ consistencyStreak }} days</strong>
+              </li>
+            </ul>
+          </article>
+
+          <article class="glass-panel rounded-2xl p-4">
+            <h3 class="text-sm font-semibold text-app-primary">Smart insights</h3>
+            <p class="mt-1 text-xs leading-relaxed text-app-secondary">
+              Mood trend and consistency update as entries are logged. Use filters to inspect specific patterns.
+            </p>
+          </article>
+
+          <AdvancedFilterPanel
+            v-if="filtersVisible"
+            :search="search"
+            :mood="selectedMood"
+            :tag="selectedTag"
+            :mood-options="moodOptions"
+            :tag-options="tagOptions"
+            :quick-range="quickRange"
+            @update:search="search = $event"
+            @update:mood="selectedMood = $event"
+            @update:tag="selectedTag = $event"
+            @update:quick-range="applyQuickRange"
+            @clear="clearAllFilters"
+          />
+          <EntryDetailPanel :entry="selectedEntry" @close="selectedEntry = undefined" @edit="handleEdit" @delete="handleDelete" />
+        </div>
       </section>
     </div>
 
-    <GlassBottomNav v-if="!isDesktop" :active-tab="activeTab === 'timeline' ? 'calendar' : activeTab" @change="handleMobileTab" @add="ui.openDropModal" />
+    <GlassBottomNav v-if="isMobile || isTablet" :active-tab="activeTab === 'timeline' ? 'calendar' : activeTab" @change="handleMobileTab" @add="ui.openDropModal" />
 
     <BottomSheetModal :open="ui.isDropModalOpen" @close="ui.closeDropModal">
       <QuickDropForm :open="ui.isDropModalOpen" @save="handleSave" />
@@ -152,7 +181,7 @@ const DashboardPanel = defineAsyncComponent(() => import('./DashboardPanel.vue')
 const ui = useUIStore();
 const { entries, error, selectedMood, selectedTag, search, from, to, addEntry, removeEntry, updateEntry } = useDropEntries();
 const { insightCards, consistencyStreak, weeklyActivitySeries, moodTrendSeries } = useInsights();
-const { isDesktop } = useBreakpoint();
+const { isMobile, isTablet, isDesktop } = useBreakpoint();
 
 const selectedDate = ref<string>();
 const selectedEntry = ref<DropEntry>();

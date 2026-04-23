@@ -1,6 +1,6 @@
 <template>
   <section class="space-y-4">
-    <div class="grid grid-cols-1 gap-3 xl:grid-cols-3">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       <article v-for="card in cards" :key="card.id" class="glass-panel rounded-2xl p-4">
         <p class="text-xs uppercase tracking-wide text-app-muted">{{ card.title }}</p>
         <p class="mt-1 text-2xl font-bold text-app-primary">{{ card.value }}</p>
@@ -8,7 +8,7 @@
       </article>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
       <article class="glass-panel rounded-2xl p-4">
         <h3 class="text-sm font-semibold text-app-primary">Activity chart</h3>
         <div class="mt-4 grid grid-cols-7 gap-2">
