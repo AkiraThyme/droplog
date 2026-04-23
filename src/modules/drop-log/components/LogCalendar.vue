@@ -1,20 +1,16 @@
 <template>
   <section class="glass-panel rounded-3xl p-4">
     <div class="mb-3 flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-app-primary">Log calendar</h3>
+      <h3 class="text-sm font-semibold text-app-primary">Mood heatmap calendar</h3>
       <button class="rounded-full border border-slate-300/70 px-3 py-1 text-xs text-app-secondary" @click="$emit('clear')">Clear</button>
     </div>
 
-    <div class="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase text-app-muted">
-      <span v-for="day in weekDays" :key="day">{{ day }}</span>
-    </div>
-
-    <div class="mt-2 grid grid-cols-7 gap-2">
+    <div class="grid grid-cols-7 gap-1">
       <button
-        v-for="cell in calendarCells"
+        v-for="cell in heatmapCells"
         :key="cell.key"
         :disabled="!cell.dateKey"
-        class="calendar-cell"
+        class="calendar-cell h-8 w-full"
         :class="[
           cell.dateKey ? 'cursor-pointer border-slate-300/70 text-app-secondary' : 'border-transparent opacity-0',
           cell.isToday && 'ring-1 ring-violet-400',
@@ -23,8 +19,7 @@
         ]"
         @click="cell.dateKey && $emit('select-day', cell.dateKey)"
       >
-        <span class="text-[11px]">{{ cell.day }}</span>
-        <span class="text-[10px] opacity-80">{{ cell.count > 0 ? cell.count : '' }}</span>
+        <span class="text-[9px]">{{ cell.day }}</span>
       </button>
     </div>
   </section>
@@ -33,28 +28,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { DropEntry } from '../types/drop-entry';
+import { formatDateKey, toIsoDate } from '../utils/date';
 
-const props = defineProps<{
-  entries: DropEntry[];
-  selectedDate?: string;
-}>();
-
-defineEmits<{
-  'select-day': [dateKey: string];
-  clear: [];
-}>();
-
-const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-const monthStart = computed(() => {
-  const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), 1);
-});
-
-const monthEnd = computed(() => {
-  const start = monthStart.value;
-  return new Date(start.getFullYear(), start.getMonth() + 1, 0);
-});
+const props = defineProps<{ entries: DropEntry[]; selectedDate?: string }>();
+defineEmits<{ 'select-day': [dateKey: string]; clear: [] }>();
 
 const countMap = computed(() =>
   props.entries.reduce<Record<string, number>>((acc, entry) => {
@@ -64,45 +41,36 @@ const countMap = computed(() =>
   }, {}),
 );
 
-const calendarCells = computed(() => {
-  const start = monthStart.value;
-  const end = monthEnd.value;
-  const startOffset = start.getDay();
-  const totalDays = end.getDate();
-  const totalCells = Math.ceil((startOffset + totalDays) / 7) * 7;
+const heatmapCells = computed(() => {
+  const today = new Date();
+  const cells: Array<{ key: string; day: string; dateKey: string; count: number; isToday: boolean; isSelected: boolean }> = [];
 
-  return Array.from({ length: totalCells }, (_, index) => {
-    const dayIndex = index - startOffset + 1;
-    if (dayIndex < 1 || dayIndex > totalDays) {
-      return { key: `empty-${index}`, day: '', dateKey: '', count: 0, isToday: false, isSelected: false };
-    }
-
-    const date = new Date(start.getFullYear(), start.getMonth(), dayIndex);
+  for (let offset = 83; offset >= 0; offset -= 1) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - offset);
     const dateKey = toIsoDate(date);
-    return {
+    cells.push({
       key: dateKey,
-      day: dayIndex,
+      day: String(date.getDate()),
       dateKey,
       count: countMap.value[dateKey] ?? 0,
-      isToday: dateKey === toIsoDate(new Date()),
+      isToday: dateKey === toIsoDate(today),
       isSelected: props.selectedDate === dateKey,
-    };
-  });
+    });
+  }
+
+  const padding = (7 - (cells.length % 7)) % 7;
+  for (let index = 0; index < padding; index += 1) {
+    cells.push({ key: `pad-${index}`, day: '', dateKey: '', count: 0, isToday: false, isSelected: false });
+  }
+
+  return cells;
 });
 
 const intensityClass = (count: number) => {
-  if (count >= 4) return 'bg-violet-500/45';
-  if (count >= 2) return 'bg-violet-400/30';
-  if (count >= 1) return 'bg-violet-300/25';
-  return 'bg-white/40';
+  if (count >= 5) return 'bg-violet-600/60';
+  if (count >= 3) return 'bg-violet-500/45';
+  if (count >= 1) return 'bg-violet-400/30';
+  return 'bg-white/40 dark:bg-slate-900/70';
 };
-
-function toIsoDate(date: Date) {
-  const tzOffset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - tzOffset).toISOString().slice(0, 10);
-}
-
-function formatDateKey(timestamp: number) {
-  return toIsoDate(new Date(timestamp));
-}
 </script>

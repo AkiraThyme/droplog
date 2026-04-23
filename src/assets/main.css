@@ -54,3 +54,14 @@ html.dark .glass-nav {
 html.dark .calendar-cell {
   @apply border-slate-700/70 text-slate-200;
 }
+
+.timeline-enter-active,
+.timeline-leave-active {
+  transition: all 0.24s ease;
+}
+
+.timeline-enter-from,
+.timeline-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
