@@ -1,10 +1,10 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
-const MOBILE_MAX = 639;
-const TABLET_MAX = 1024;
+const MD_MIN = 768;
+const LG_MIN = 1024;
 
 export const useBreakpoint = () => {
-  const width = ref<number>(typeof window === 'undefined' ? 1280 : window.innerWidth);
+  const width = ref<number>(typeof window === 'undefined' ? LG_MIN : window.innerWidth);
 
   const updateWidth = () => {
     width.value = window.innerWidth;
@@ -19,9 +19,9 @@ export const useBreakpoint = () => {
     window.removeEventListener('resize', updateWidth);
   });
 
-  const isMobile = computed(() => width.value <= MOBILE_MAX);
-  const isTablet = computed(() => width.value >= 640 && width.value <= TABLET_MAX);
-  const isDesktop = computed(() => width.value > TABLET_MAX);
+  const isMobile = computed(() => width.value < MD_MIN);
+  const isTablet = computed(() => width.value >= MD_MIN && width.value < LG_MIN);
+  const isDesktop = computed(() => width.value >= LG_MIN);
 
   return {
     width,

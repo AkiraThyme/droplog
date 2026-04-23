@@ -1,6 +1,6 @@
 <template>
-  <main class="mx-auto min-h-screen w-full max-w-7xl px-6 pb-32 pt-4 lg:pb-8">
-    <div class="grid gap-6 lg:grid-cols-[240px_1fr_320px]">
+  <main class="mx-auto min-h-screen w-full max-w-7xl px-4 pb-32 pt-4 sm:px-6 md:pt-6 lg:px-8 lg:pb-10">
+    <div class="grid gap-4 md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)_320px] lg:gap-6">
       <DesktopSidebar
         v-if="isDesktop"
         :active-tab="activeTab"
@@ -9,8 +9,8 @@
         @toggle-theme="ui.toggleTheme()"
       />
 
-      <section class="space-y-4 lg:space-y-5">
-        <header v-if="isMobile || isTablet" class="glass-panel rounded-3xl px-4 py-4">
+      <section class="min-w-0 space-y-4 md:space-y-6">
+        <header v-if="isMobile || isTablet" class="glass-panel rounded-3xl px-4 py-4 md:px-6">
           <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3">
               <img src="/icons/logo.png" alt="DropLog logo" class="h-11 w-11 rounded-2xl object-cover shadow-md" />
@@ -25,13 +25,13 @@
           </div>
         </header>
 
-        <header v-else class="glass-panel rounded-3xl p-4">
-          <div class="mb-3 flex items-center justify-between">
+        <header v-else class="glass-panel rounded-3xl p-5 xl:p-6">
+          <div class="mb-4 flex items-center justify-between gap-4">
             <div>
-              <p class="text-xs uppercase tracking-[0.16em] text-app-muted">Desktop mode</p>
-              <h2 class="text-2xl font-bold text-app-primary">Dashboard</h2>
+              <p class="text-xs uppercase tracking-[0.16em] text-app-muted">Desktop workspace</p>
+              <h2 class="text-3xl font-bold text-app-primary">DropLog dashboard</h2>
             </div>
-            <button class="rounded-xl bg-violet-500 px-4 py-2 text-sm font-semibold text-white" @click="ui.openDropModal">+ Drop</button>
+            <button class="rounded-xl bg-violet-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/30" @click="ui.openDropModal">+ Drop</button>
           </div>
           <GlobalSearchBar
             ref="searchBar"
@@ -42,13 +42,13 @@
           />
         </header>
 
-        <section v-if="isDesktop && activeTab === 'home'" class="space-y-5">
+        <section v-if="isDesktop && activeTab === 'home'" class="space-y-6">
           <DashboardPanel :cards="dashboardCards" :weekly-series="weeklySeries" :trend-series="moodTrendSeries" :recent-entries="entries.slice(0, 5)" />
         </section>
 
-        <section v-if="activeTab === 'home' && (isMobile || isTablet)" class="space-y-5">
+        <section v-if="activeTab === 'home' && (isMobile || isTablet)" class="space-y-5 md:space-y-6">
           <InsightsPanel :cards="insightCards" :weekly-series="weeklySeries" :trend-series="moodTrendSeries" />
-          <article class="glass-panel rounded-2xl p-4">
+          <article class="glass-panel rounded-2xl p-4 md:p-5">
             <div class="mb-3 flex items-center justify-between">
               <h2 class="text-base font-semibold text-app-primary">Latest entries</h2>
               <span class="text-xs text-app-muted">{{ entries.length }} total</span>
@@ -57,7 +57,7 @@
           </article>
         </section>
 
-        <section v-if="activeTab === 'timeline'" class="space-y-4">
+        <section v-if="activeTab === 'timeline'" class="space-y-4 md:space-y-6">
           <FilterBar
             v-if="isMobile || isTablet"
             :search="search"
@@ -75,18 +75,18 @@
 
           <LogCalendar :entries="entries" :selected-date="selectedDate" :is-desktop="isDesktop" @select-day="selectDay" @clear="clearDayFilter" />
 
-          <article class="glass-panel rounded-2xl p-5">
+          <article class="glass-panel rounded-2xl p-4 md:p-5">
             <div class="mb-3 flex items-center justify-between">
-              <h2 class="text-base font-semibold text-app-primary">Timeline</h2>
+              <h2 class="text-base font-semibold text-app-primary md:text-lg">Timeline</h2>
               <span class="text-xs text-app-muted">{{ entries.length }} entries</span>
             </div>
             <TimelineList :entries="entries" :is-desktop="isDesktop" @delete="handleDelete" @edit="handleEdit" @select="selectedEntry = $event" />
           </article>
         </section>
 
-        <section v-if="activeTab === 'insights'" class="space-y-4">
-          <article class="glass-panel rounded-2xl p-4">
-            <h2 class="text-base font-semibold text-app-primary">Consistency</h2>
+        <section v-if="activeTab === 'insights'" class="space-y-4 md:space-y-6">
+          <article class="glass-panel rounded-2xl p-4 md:p-5">
+            <h2 class="text-base font-semibold text-app-primary md:text-lg">Consistency</h2>
             <p class="mt-1 text-sm text-app-secondary">You currently have a {{ consistencyStreak }} day streak. Keep logging to build momentum.</p>
           </article>
           <InsightsPanel :cards="insightCards" :weekly-series="weeklySeries" :trend-series="moodTrendSeries" />
@@ -97,8 +97,8 @@
         <p v-if="error" class="rounded-xl bg-rose-100 px-3 py-2 text-sm text-rose-700">{{ error }}</p>
       </section>
 
-      <section v-if="isDesktop" class="sticky top-4 h-[calc(100vh-2rem)] overflow-y-auto pr-1">
-        <div class="space-y-4">
+      <section v-if="isDesktop" class="sticky top-6 h-[calc(100vh-3rem)] overflow-y-auto pr-1">
+        <div class="space-y-4 xl:space-y-5">
           <article class="glass-panel rounded-2xl p-4">
             <div class="mb-3 flex items-center justify-between">
               <h3 class="text-sm font-semibold text-app-primary">Quick stats</h3>
