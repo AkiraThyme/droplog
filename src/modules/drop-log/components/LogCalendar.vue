@@ -1,11 +1,11 @@
 <template>
   <section class="glass-panel rounded-3xl p-4">
     <div class="mb-3 flex items-center justify-between">
-      <h3 class="text-sm font-semibold text-slate-800">Log calendar</h3>
-      <button class="rounded-full border border-slate-300/70 px-3 py-1 text-xs text-slate-700" @click="$emit('clear')">Clear</button>
+      <h3 class="text-sm font-semibold text-app-primary">Log calendar</h3>
+      <button class="rounded-full border border-slate-300/70 px-3 py-1 text-xs text-app-secondary" @click="$emit('clear')">Clear</button>
     </div>
 
-    <div class="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase text-slate-500">
+    <div class="grid grid-cols-7 gap-2 text-center text-[10px] font-semibold uppercase text-app-muted">
       <span v-for="day in weekDays" :key="day">{{ day }}</span>
     </div>
 
@@ -16,7 +16,7 @@
         :disabled="!cell.dateKey"
         class="calendar-cell"
         :class="[
-          cell.dateKey ? 'cursor-pointer border-slate-300/70 text-slate-700' : 'border-transparent opacity-0',
+          cell.dateKey ? 'cursor-pointer border-slate-300/70 text-app-secondary' : 'border-transparent opacity-0',
           cell.isToday && 'ring-1 ring-violet-400',
           cell.isSelected && 'border-violet-500 bg-violet-500 text-white',
           !cell.isSelected && intensityClass(cell.count),

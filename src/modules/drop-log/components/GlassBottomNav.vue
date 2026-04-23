@@ -4,7 +4,7 @@
       v-for="item in items"
       :key="item.key"
       class="rounded-xl px-3 py-2 text-xs font-semibold transition"
-      :class="activeTab === item.key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-200 dark:text-slate-950' : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100'"
+      :class="activeTab === item.key ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-200 dark:text-slate-950' : 'text-app-muted hover:text-app-secondary'"
       @click="$emit('change', item.key)"
     >
       {{ item.label }}
@@ -22,19 +22,20 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    activeTab: 'home' | 'calendar' | 'insights';
+    activeTab: 'home' | 'calendar' | 'insights' | 'more';
   }>(),
   { activeTab: 'home' },
 );
 
 defineEmits<{
-  change: [tab: 'home' | 'calendar' | 'insights'];
+  change: [tab: 'home' | 'calendar' | 'insights' | 'more'];
   add: [];
 }>();
 
-const items: { key: 'home' | 'calendar' | 'insights'; label: string }[] = [
+const items: { key: 'home' | 'calendar' | 'insights' | 'more'; label: string }[] = [
   { key: 'home', label: 'Home' },
-  { key: 'calendar', label: 'Calendar' },
+  { key: 'calendar', label: 'Timeline' },
   { key: 'insights', label: 'Insights' },
+  { key: 'more', label: 'More' },
 ];
 </script>
